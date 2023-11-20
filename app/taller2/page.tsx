@@ -8,20 +8,33 @@ import checkAuth from 'app/checkauth'
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import UserInfo from '../../components/userInfo'
+import { tallerData2 } from "@/components/Blog/tallerData";
 
 const MostrarTaller = () => {
 
  const [isAuthenticated, setIsAuthenticated] = useState(false);
+ const [dataTalleres, setdataTalleres] = useState([]);
   const router = useRouter();
+  
 
   useEffect(() => {
-    checkAuth((authenticated) => {
-      setIsAuthenticated(authenticated);
-      if (!authenticated) {
-        router.push("/login"); // Redirige a la página de inicio de sesión si no está autenticado
-      }
-    });
-  });
+    const fetchData = async () => {
+      checkAuth(async (authenticated) => {
+        setIsAuthenticated(authenticated);
+  
+        if (!authenticated) {
+          router.push("/login");
+        } else {
+          const talleresData = await tallerData2();
+          console.log("Los datos de los talleres son:", talleresData);
+          setdataTalleres(talleresData)
+      
+        }
+      });
+    };
+  
+    fetchData();
+  }, []);
   const LoadingComponent = () => (
     <div className="loading">
       Cargando...
@@ -29,6 +42,7 @@ const MostrarTaller = () => {
   );
 
   if (!isAuthenticated) {
+   
     return <LoadingComponent />; // O un componente de carga
   }
 
@@ -47,12 +61,12 @@ const MostrarTaller = () => {
       <section className="pt-[120px] pb-[120px]">
         <div className="container">
           <div className="-mx-4 flex flex-wrap justify-center">
-            {tallerData.map((taller) => (
+            {dataTalleres.map((taller) => (
               <div
                 key={taller.id}
-                className="w-full px-4 md:w-2/3 lg:w-1/2 xl:w-1/3"
+                className="w-full px-4 md:w-2/3 lg:w-1/2 xl:w-1/3 mb-5"
               >
-                <SingleTaller taller={taller} />
+                <SingleTaller taller={taller.data} />
               </div>
             ))}
           </div>

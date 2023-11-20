@@ -1,4 +1,23 @@
 import { Taller } from "@/types/blog";
+import { db } from "@/firebase/initFirebase";
+import { collection, getDocs } from "firebase/firestore";
+
+export const tallerData2 = async () => {
+  const talleresArray = [];
+
+  const talleres = await getDocs(collection(db, "products"));
+  talleres.forEach((doc) => {
+    // doc.data() is never undefined for query doc snapshots
+    talleresArray.push({
+      id: doc.id,
+      data: doc.data()
+    });
+  });
+
+  return talleresArray;
+};
+
+
 
 const tallerData: Taller[] = [
     {

@@ -10,7 +10,7 @@ import * as Yup from 'yup';
 
 const validationSchema = Yup.object({
   nombre: Yup.string()
-    .max(15, 'Debe tener 15 caracteres o menos')
+    .max(40, 'Debe tener 15 caracteres o menos')
     .required('El nombre es requerido'),
   descripcion: Yup.string()
     .required('La descripción es requerida'),
@@ -92,7 +92,7 @@ const CrearTallerForm = () => {
           nombre: values.nombre,
           descripcion:values.descripcion,
           cupoMaximo:values.cupoMaximo,
-          Image: downloadURL,
+          image: downloadURL,
           displayName:user.displayName,
           email:user.email,
           fotocreador:user.photoURL
