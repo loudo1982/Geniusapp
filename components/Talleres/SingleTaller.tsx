@@ -1,18 +1,23 @@
 import { Taller } from "@/types/blog";
 import { useState, useEffect } from 'react';
 import { db } from "@/firebase/initFirebase";
-
+import { useRouter } from 'next/navigation'
+import Swal from 'sweetalert2'
 import { addDoc, collection, getDocs, query, where } from '@firebase/firestore';
 import Image from 'next/image';
-import Link from 'next/link';
+import Link from 'next/link'
 
-const SingleTaller = ({ taller }: { taller: Taller }) => {
+const SingleTaller = ({ taller,onTallerClick  }) => {
   const { image, descripcion, displayName, email, nombre, fotocreador } = taller;
 
   const [inscrito, setInscrito] = useState(false);
   const [otroTallerInscrito, setOtroTallerInscrito] = useState(false);
   const [desaparecer, setDesaparecer] = useState(false);
-
+  const router = useRouter()
+  const handleClick = () => {
+    // Call the onTallerClick callback with the taller's name
+    onTallerClick(taller.nombre);
+  };
   useEffect(() => {
     const checkInscripcion = async () => {
       try {
@@ -54,24 +59,52 @@ const SingleTaller = ({ taller }: { taller: Taller }) => {
 
   const handleInscripcionClick = async () => {
     try {
-      const inscritosCollection = collection(db, 'inscritos');
-      if (!inscrito && !otroTallerInscrito) {
-        await addDoc(inscritosCollection, {
-          displayName,
-          nombre,
-          email,
-        });
+     
+      
 
-        // Actualiza el estado para indicar que el usuario está inscrito en este taller
-        setInscrito(true);
-        setOtroTallerInscrito(false);
-        setDesaparecer(true)
-        window.location.reload();
+        //window.location.reload();
        
 
-        alert('¡Te has inscrito correctamente!');
+        Swal.fire({
+          title: "¿Seguro quieres inscribirte en este taller?",
+          text: "Una vez inscrito , no podrás cambiar!",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#3085d6",
+          cancelButtonColor: "#d33",
+          confirmButtonText: "¡Sí, seguro!"
+        }).then((result) => {
+          if (result.isConfirmed) {
+            const inscritosCollection = collection(db, 'inscritos');
+            if (!inscrito && !otroTallerInscrito) {
+             addDoc(inscritosCollection, {
+                displayName,
+                nombre,
+                email,
+              });
+      
+              // Actualiza el estado para indicar que el usuario está inscrito en este taller
+              setInscrito(true);
+              setOtroTallerInscrito(false);
+              setDesaparecer(true)
+            }
+
+
+            
+            Swal.fire({
+              title: "FELICIDADES!",
+              text: "estas inscrito.",
+              icon: "success"
+              
+            });window.location.reload();
+          }else if (result.isDismissed) {
+            // Hacer algo si se da clic en "Cancelar"
+            return; // para no ejecutar nada más
+          }
+        });
         console.log('inscrito:', displayName, email, nombre, fotocreador);
-      }
+       
+      
     } catch (error) {
       console.error('Error al inscribirse:', error);
     }
@@ -79,16 +112,14 @@ const SingleTaller = ({ taller }: { taller: Taller }) => {
 
   return (
     <>
-      <div className="wow fadeInUp relative overflow-hidden rounded-md bg-white shadow-one dark:bg-dark">
+      <div className="wow fadeInUp relative overflow-hidden rounded-md bg-white shadow-one dark:bg-dark" >
         <button
-          className={`relative block h-[220px] w-full ${inscrito || otroTallerInscrito || desaparecer ? 'cursor-not-allowed' : ''}`}
+          className={`relative block h-[220px] w-full ${inscrito || otroTallerInscrito ? 'cursor-not-allowed' : ''}`}
         >
           <span
             onClick={async () => {
               await handleInscripcionClick();
-              // Después de hacer clic en "Me inscribo", actualiza el estado para que los demás botones se deshabiliten
-              setInscrito(true);
-              setOtroTallerInscrito(false);
+           
             }}
             className={`absolute top-6 right-6 z-20 inline-flex items-center justify-center rounded-full bg-primary py-2 px-4 text-sm font-semibold capitalize text-white ${
               inscrito ? 'bg-gray-500' : ''
@@ -120,6 +151,7 @@ const SingleTaller = ({ taller }: { taller: Taller }) => {
                 <div className="relative h-10 w-10 overflow-hidden rounded-full">
                   <Image src={fotocreador} alt="author" fill />
                 </div>
+
               </div>
               <div className="w-full">
                 <h4 className="mb-1 text-sm font-medium text-dark dark:text-white">By {displayName}</h4>
@@ -128,9 +160,10 @@ const SingleTaller = ({ taller }: { taller: Taller }) => {
             </div>
             <div className="inline-block">
               <h4 className="mb-1 text-sm font-medium text-dark dark:text-white">Date</h4>
-              <p className="text-xs text-body-color">fecha publicacion</p>
+              <p className="text-xs text-body-color" onClick={handleClick}>Inscritos</p>
             </div>
           </div>
+         
         </div>
       </div>
     </>

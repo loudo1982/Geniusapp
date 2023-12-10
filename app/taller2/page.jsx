@@ -10,6 +10,7 @@ import { useRouter } from "next/navigation";
 import UserInfo from '../../components/userInfo'
 import { tallerData2 } from "@/components/Blog/tallerData";
 
+
 const MostrarTaller = () => {
 
  const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -36,8 +37,10 @@ const MostrarTaller = () => {
     fetchData();
   }, []);
   const LoadingComponent = () => (
-    <div className="loading">
-      Cargando...
+    <div>
+      <div className="loading">
+        Cargando...
+      </div>
     </div>
   );
 
@@ -47,7 +50,12 @@ const MostrarTaller = () => {
   }
 
   // Resto del contenido de la página "taller"
+  const handleTallerClick = (tallerName) => {
+    console.log(`Clicked on taller: ${tallerName}`);
+    // Do something with the clicked taller's name
 
+    router.push(`/inscritos?taller=${encodeURIComponent(tallerName)}`);
+  };
   
   
   return (
@@ -66,7 +74,8 @@ const MostrarTaller = () => {
                 key={taller.id}
                 className="w-full px-4 md:w-2/3 lg:w-1/2 xl:w-1/3 mb-5"
               >
-                <SingleTaller taller={taller.data} />
+                <SingleTaller taller={taller.data}
+                onTallerClick={handleTallerClick} />
               </div>
             ))}
           </div>
