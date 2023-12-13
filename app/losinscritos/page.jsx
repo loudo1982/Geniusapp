@@ -11,11 +11,11 @@ const InscritosPage = () => {
   console.log(searchParams.get("taller"));
 
   const [registros, setRegistros] = useState(null);
-  
+  const [busqueda, setBusqueda] = useState("");
 
   const registrostalleres = async () => {
     const talleresArray = [];
-    const talleresinscritos = await getDocs(query(collection(db, "inscritos"), where("nombre", "==", searchParams.get("taller"))));
+    const talleresinscritos = await getDocs(query(collection(db, "inscritos")));
     talleresinscritos.forEach((doc) => {
       talleresArray.push({
         id: doc.id,
@@ -34,11 +34,37 @@ const InscritosPage = () => {
     fetchData();
 
   }, []);
+  const handleBusqueda = (event) => {
+    setBusqueda(event.target.value);
+  };
 
+  const filtrarRegistros = (registros) => {
+    return registros.filter((registro) => {
+      return (
+        registro.data.email.toLowerCase().includes(busqueda.toLowerCase()) ||
+        registro.data.usuario.toLowerCase().includes(busqueda.toLowerCase())
+      );
+    });
+  };
   return (
-    <div className='m-8 sm:m-16 md:m-32'>
+    <div className='m-4 sm:m-8 md:m-16'>
     <h1 className="text-2xl font-bold mb-4">Inscritos Page</h1>
     <p className="mb-2">Nombre del taller: {searchParams.get("taller")}</p>
+    <div className="mb-4">
+      <input
+        type="text"
+        placeholder="Buscar por email o displayname"
+        className="px-4 py-2 border border-gray-400 rounded-lg w-full"
+        value={busqueda}
+        onChange={handleBusqueda}
+      />
+      <button
+        className="mt-2 px-4 py-2 bg-blue-500 text-white rounded-lg w-full"
+        onClick={() => setRegistros(filtrarRegistros(registros))}
+      >
+        Buscar
+      </button>
+    </div>
     <div className="overflow-x-auto">
       {registros && (
         <div className="sm:overflow-x-auto">
@@ -48,14 +74,16 @@ const InscritosPage = () => {
                 <th className="px-4 py-2 border border-gray-400">#</th>
                 <th className="px-4 py-2 border border-gray-400">Nombre</th>
                 <th className="px-4 py-2 border border-gray-400">Correo electrónico</th>
+                <th className="px-4 py-2 border border-gray-400">Nombre del taller</th>
               </tr>
             </thead>
             <tbody>
-              {registros.map((registro, index) => (
+              {filtrarRegistros(registros).map((registro, index) => (
                 <tr key={registro.id}>
                   <td className="px-4 py-2 border border-gray-400">{index + 1}</td>
                   <td className="px-4 py-2 border border-gray-400">{registro.data.usuario}</td>
                   <td className="px-4 py-2 border border-gray-400">{registro.data.email}</td>
+                  <td className="px-4 py-2 border border-gray-400">{registro.data.nombre}</td>
                 </tr>
               ))}
             </tbody>

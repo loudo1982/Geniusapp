@@ -6,19 +6,24 @@ import Swal from 'sweetalert2'
 import { addDoc, collection, getDocs, query, where } from '@firebase/firestore';
 import Image from 'next/image';
 import Link from 'next/link'
+import UserInfo from "../userInfo";
 
-const SingleTaller = ({ taller,onTallerClick  }) => {
+const SingleTaller = ({ taller,onTallerClick ,usuario }) => {
   const { image, descripcion, displayName, email, nombre, fotocreador } = taller;
+  
 
   const [inscrito, setInscrito] = useState(false);
-  const [otroTallerInscrito, setOtroTallerInscrito] = useState(false);
-  const [desaparecer, setDesaparecer] = useState(false);
+  const[otroTallerInscrito,setotroTallerInscrito]=useState(false);
+  
+ 
+
   const router = useRouter()
   const handleClick = () => {
     // Call the onTallerClick callback with the taller's name
     onTallerClick(taller.nombre);
   };
   useEffect(() => {
+    console.log('el usuario es',usuario)
     const checkInscripcion = async () => {
       try {
         const inscritosCollection = collection(db, 'inscritos');
@@ -26,26 +31,39 @@ const SingleTaller = ({ taller,onTallerClick  }) => {
         // Verifica si el usuario está inscrito en este taller
         const q = query(
           inscritosCollection,
-          where('displayName', '==', displayName),
+          where('usuario', '==', usuario.displayName),// no cambiar 'usuario'
           where('nombre', '==', nombre)
         );
         const querySnapshot = await getDocs(q);
 
+        console.log('se encontro?',querySnapshot.empty)
+       
+
         if (!querySnapshot.empty) {
           setInscrito(true);
-          setOtroTallerInscrito(false);
+          setotroTallerInscrito(true)
+ 
+          console.log('desde 1',inscrito)
+  
+         
         } else {
           // Si no está inscrito en este taller, verifica si está inscrito en otro taller
-          const otroTallerQ = query(inscritosCollection, where('displayName', '==', displayName));
+          const otroTallerQ = query(inscritosCollection, where('displayName', '==', usuario.displayName));
           const otroTallerQuerySnapshot = await getDocs(otroTallerQ);
+         
 
           if (!otroTallerQuerySnapshot.empty) {
-            setOtroTallerInscrito(true);
+            console.log('desde 2',inscrito)
+         
             setInscrito(false);
+            console.log('desde 3',inscrito)
+    
+         
           } else {
             // Si no está inscrito en ningún taller, establece el estado para mostrar el botón
-            setInscrito(false);
-            setOtroTallerInscrito(false);
+          
+         
+            
           }
         }
       } catch (error) {
@@ -55,7 +73,7 @@ const SingleTaller = ({ taller,onTallerClick  }) => {
 
     // Llama a la función de verificación al cargar el componente
     checkInscripcion();
-  }, [displayName, nombre]);
+  }, [usuario, nombre,inscrito,otroTallerInscrito]);
 
   const handleInscripcionClick = async () => {
     try {
@@ -76,17 +94,20 @@ const SingleTaller = ({ taller,onTallerClick  }) => {
         }).then((result) => {
           if (result.isConfirmed) {
             const inscritosCollection = collection(db, 'inscritos');
-            if (!inscrito && !otroTallerInscrito) {
+            if (!inscrito ) {
              addDoc(inscritosCollection, {
-                displayName,
+                usuario:usuario.displayName,
                 nombre,
-                email,
+                email:usuario.email,
+                avatar:usuario.photoURL
               });
       
               // Actualiza el estado para indicar que el usuario está inscrito en este taller
               setInscrito(true);
-              setOtroTallerInscrito(false);
-              setDesaparecer(true)
+              console.log('desde 5',inscrito)
+         
+          
+             
             }
 
 
@@ -113,7 +134,7 @@ const SingleTaller = ({ taller,onTallerClick  }) => {
   return (
     <>
       <div className="wow fadeInUp relative overflow-hidden rounded-md bg-white shadow-one dark:bg-dark" >
-        <button
+      <button
           className={`relative block h-[220px] w-full ${inscrito || otroTallerInscrito ? 'cursor-not-allowed' : ''}`}
         >
           <span
@@ -159,8 +180,8 @@ const SingleTaller = ({ taller,onTallerClick  }) => {
               </div>
             </div>
             <div className="inline-block">
-              <h4 className="mb-1 text-sm font-medium text-dark dark:text-white">Date</h4>
-              <p className="text-xs text-body-color" onClick={handleClick}>Inscritos</p>
+              <h4 className="mb-1 text-sm font-medium text-dark dark:text-white">Inscritos</h4>
+              <button className="text-xs text-body-color" onClick={handleClick}>Ver los inscritos</button>
             </div>
           </div>
          
