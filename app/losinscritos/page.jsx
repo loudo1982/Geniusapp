@@ -5,6 +5,7 @@ import { useSearchParams } from 'next/navigation'
 import React, { useState, useEffect } from 'react';
 import { db } from "@/firebase/initFirebase";
 import { collection, getDocs,where,query } from "firebase/firestore";
+import Image from 'next/image';
 
 const InscritosPage = () => {
   const searchParams = useSearchParams();
@@ -72,6 +73,7 @@ const InscritosPage = () => {
             <thead>
               <tr>
                 <th className="px-4 py-2 border border-gray-400">#</th>
+                <th className="px-4 py-2 border border-gray-400"></th>
                 <th className="px-4 py-2 border border-gray-400">Nombre</th>
                 <th className="px-4 py-2 border border-gray-400">Correo electrónico</th>
                 <th className="px-4 py-2 border border-gray-400">Nombre del taller</th>
@@ -81,6 +83,7 @@ const InscritosPage = () => {
               {filtrarRegistros(registros).map((registro, index) => (
                 <tr key={registro.id}>
                   <td className="px-4 py-2 border border-gray-400">{index + 1}</td>
+                  <td className="px-4 py-2 border border-gray-400 "><Image className='overflow-hidden rounded-full' src={registro.data.avatar} alt="image" width={30} height={30}  /></td>
                   <td className="px-4 py-2 border border-gray-400">{registro.data.usuario}</td>
                   <td className="px-4 py-2 border border-gray-400">{registro.data.email}</td>
                   <td className="px-4 py-2 border border-gray-400">{registro.data.nombre}</td>

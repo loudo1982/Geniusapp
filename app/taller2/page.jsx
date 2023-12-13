@@ -53,7 +53,7 @@ const MostrarTaller = () => {
         setIsAuthenticated(authenticated);
   
         if (!authenticated) {
-          router.push("/login");
+          router.push("/signin");
         } else {
           const talleresData = await tallerData2();
           console.log("Los datos de los talleres son:", talleresData);
@@ -95,7 +95,7 @@ const MostrarTaller = () => {
     <>
       <Breadcrumb
         pageName="Talleres Genius"
-        description="¡Descubre la variedad de taleres que tenemos preparados para ti, para que puedas aprender nuevas habilidades!"
+        description="¡Descubre la variedad de talleres que tenemos preparados para ti, para que puedas aprender nuevas habilidades!"
       />
       {/*<UserInfo/>*/}
 

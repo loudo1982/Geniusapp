@@ -29,7 +29,7 @@ signInWithPopup(auth, provider)
     console.log('el token es:',token)
     console.log('Usuario autenticado:', user);
       // Aquí puedes redirigir al usuario a la siguiente página, por ejemplo:
-      router.push('/taller');
+      router.push('/taller2');
 
     // IdP data available using getAdditionalUserInfo(result)
     console.log('el user es:',user,user.displayName)
