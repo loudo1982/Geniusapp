@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { db } from "@/firebase/initFirebase";
 import { useRouter } from 'next/navigation'
 import Swal from 'sweetalert2'
-import { addDoc, collection, getDocs, query, where } from '@firebase/firestore';
+import { addDoc, collection, getDocs, query, where,doc, updateDoc,  } from '@firebase/firestore';
 import Image from 'next/image';
 import Link from 'next/link'
 import UserInfo from "../userInfo";
@@ -22,8 +22,43 @@ console.log('el taller es',taller)
     // Call the onTallerClick callback with the taller's name
     onTallerClick(taller.nombre);
   };
+
+  const restarcupo = async() => {
+
+    try {
+   const productsRef=collection(db,"products");
+   const q=query(productsRef,where("nombre","==","fsdfsdf"));
+   const querySnapshot=await getDocs(q)
+
+   let docID="";
+   querySnapshot.forEach((doc)=>{
+    docID=doc.id
+   })
+
+   const productRef=doc(db,"products",docID);
+   await updateDoc(productRef,{cuporestante:99})
+
+
+ 
+       
+
+
+     }
+      catch (error) {
+        console.error('Error al verificar inscripción:', error);
+      }}
+
+    
+ 
+
+
+   
+
+  
+
   useEffect(() => {
 
+restarcupo()
     const checkInscripcion = async () => {
       try {
         const inscritosCollection = collection(db, 'inscritos');
@@ -111,7 +146,7 @@ console.log('el taller es',taller)
          
           
              
-            }
+            } 
 
 
             
@@ -143,7 +178,7 @@ console.log('el taller es',taller)
 >
 <span
    
-   className={`absolute top-6 right-36 z-20 inline-flex items-center justify-center rounded-full bg-primary py-2 px-4 text-sm font-semibold capitalize text-white 
+   className={`absolute top-6 mr-8  z-20 inline-flex items-center justify-center rounded-full bg-primary py-2 px-4 text-sm font-semibold capitalize text-white 
    `}
  > 
 {cupoMaximo}
@@ -187,7 +222,7 @@ console.log('el taller es',taller)
             </div>
             <div className="inline-block">
               <h4 className="mb-1 text-sm font-medium text-dark dark:text-white">Inscritos</h4>
-              <button className="text-xs text-body-color" onClick={handleClick}>Ver los inscritos</button>
+              <button className="text-xs text-body-color" onClick={handleClick}>Ver a los inscritos</button>
             </div>
           </div>
          
@@ -201,7 +236,7 @@ console.log('el taller es',taller)
 >
 <span
    
-   className={`absolute top-6 right-128 z-20 inline-flex items-center justify-center rounded-full bg-primary py-2 px-4 text-sm font-semibold capitalize text-white 
+   className={`absolute top-6 ml-2  z-20 inline-flex items-center justify-center rounded-full bg-primary py-2 px-4 text-sm font-semibold capitalize text-white 
    `}
  > 
 {cupoMaximo}
@@ -229,7 +264,7 @@ console.log('el taller es',taller)
            
           </h3>
           <p className="mb-6 border-b border-body-color border-opacity-10 pb-6 text-base font-medium text-body-color dark:border-white dark:border-opacity-10">
-            {descripcion} {cupoMaximo}
+            {descripcion} 
           </p>
           <div className="flex items-center">
             <div className="mr-5 flex items-center border-r border-body-color border-opacity-10 pr-5 dark:border-white dark:border-opacity-10 xl:mr-3 xl:pr-3 2xl:mr-5 2xl:pr-5">
@@ -246,7 +281,7 @@ console.log('el taller es',taller)
             </div>
             <div className="inline-block">
               <h4 className="mb-1 text-sm font-medium text-dark dark:text-white">Inscritos</h4>
-              <button className="text-xs text-body-color" onClick={handleClick}>Ver los inscritos</button>
+              <button className="text-xs text-body-color" onClick={handleClick}>Ver a los inscritos</button>
             </div>
           </div>
          

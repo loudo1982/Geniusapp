@@ -95,7 +95,8 @@ const CrearTallerForm = () => {
           image: downloadURL,
           displayName:user.displayName,
           email:user.email,
-          fotocreador:user.photoURL
+          fotocreador:user.photoURL,
+          cuporestante:values.cupoMaximo
          
 
          
