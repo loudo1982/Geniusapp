@@ -3,13 +3,13 @@ import { useState, useEffect } from 'react';
 import { db } from "@/firebase/initFirebase";
 import { useRouter } from 'next/navigation'
 import Swal from 'sweetalert2'
-import { addDoc, collection, getDocs, query, where,doc, updateDoc,  } from '@firebase/firestore';
+import { addDoc, collection, getDocs, query, where,doc, updateDoc,getDoc  } from '@firebase/firestore';
 import Image from 'next/image';
 import Link from 'next/link'
 import UserInfo from "../userInfo";
 
 const SingleTaller = ({ taller,onTallerClick ,usuario }) => {
-  const { image, descripcion, displayName, email, nombre, fotocreador,cupoMaximo } = taller;
+  const { image, descripcion, displayName, email, nombre, fotocreador,cupoMaximo,cuporestante } = taller;
   
 console.log('el taller es',taller)
   const [inscrito, setInscrito] = useState(false);
@@ -23,30 +23,35 @@ console.log('el taller es',taller)
     onTallerClick(taller.nombre);
   };
 
-  const restarcupo = async() => {
-
+  const restarcupo = async () => {
     try {
-   const productsRef=collection(db,"products");
-   const q=query(productsRef,where("nombre","==","fsdfsdf"));
-   const querySnapshot=await getDocs(q)
-
-   let docID="";
-   querySnapshot.forEach((doc)=>{
-    docID=doc.id
-   })
-
-   const productRef=doc(db,"products",docID);
-   await updateDoc(productRef,{cuporestante:99})
-
-
- 
-       
-
-
-     }
-      catch (error) {
-        console.error('Error al verificar inscripción:', error);
-      }}
+      const productsRef = collection(db, "products");
+      const q = query(productsRef, where("nombre", "==", taller.nombre));
+      const querySnapshot = await getDocs(q);
+  
+      let docID = "";
+      querySnapshot.forEach((doc) => {
+        docID = doc.id;
+      });
+  
+      const productRef = doc(db, "products", docID);
+  
+      // Obtén la información actual del documento
+      const productSnapshot = await getDoc(productRef);
+      const currentCuporestante = productSnapshot.data().cuporestante;
+  
+      // Resta 1 al valor actual de cuporestante
+      const newCuporestante = currentCuporestante - 1;
+  
+      // Actualiza el documento en la base de datos
+      await updateDoc(productRef, { cuporestante: newCuporestante });
+  
+      console.log('Cupo restado correctamente');
+    } catch (error) {
+      console.error('Error al restar cupo:', error);
+    }
+  };
+  
 
     
  
@@ -58,7 +63,7 @@ console.log('el taller es',taller)
 
   useEffect(() => {
 
-restarcupo()
+
     const checkInscripcion = async () => {
       try {
         const inscritosCollection = collection(db, 'inscritos');
@@ -132,6 +137,7 @@ restarcupo()
         }).then((result) => {
           if (result.isConfirmed) {
             const inscritosCollection = collection(db, 'inscritos');
+            restarcupo()
             if (!inscrito ) {
              addDoc(inscritosCollection, {
                 usuario:usuario.displayName,
@@ -176,14 +182,7 @@ restarcupo()
   className={`relative block h-[220px] w-full $}`}
 
 >
-<span
-   
-   className={`absolute top-6 mr-8  z-20 inline-flex items-center justify-center rounded-full bg-primary py-2 px-4 text-sm font-semibold capitalize text-white 
-   `}
- > 
-{cupoMaximo}
 
- </span>
 <span
     onClick={async () => {
       await handleInscripcionClick();
@@ -234,14 +233,7 @@ restarcupo()
   className={`relative block h-[220px] w-full $}`}
 
 >
-<span
-   
-   className={`absolute top-6 ml-2  z-20 inline-flex items-center justify-center rounded-full bg-primary py-2 px-4 text-sm font-semibold capitalize text-white 
-   `}
- > 
-{cupoMaximo}
 
- </span>
 <span
    
     className={`absolute top-6 right-6 z-20 inline-flex items-center justify-center rounded-full bg-primary py-2 px-4 text-sm font-semibold capitalize text-white 
@@ -266,6 +258,10 @@ restarcupo()
           <p className="mb-6 border-b border-body-color border-opacity-10 pb-6 text-base font-medium text-body-color dark:border-white dark:border-opacity-10">
             {descripcion} 
           </p>
+          <p className="mb-6 border-b border-body-color border-opacity-10 pb-6 text-base font-medium text-body-color dark:border-white dark:border-opacity-10">
+          El taller tiene un cupo de {cupoMaximo} estudiantes y quedan  {cuporestante} lugares.
+          </p>
+        
           <div className="flex items-center">
             <div className="mr-5 flex items-center border-r border-body-color border-opacity-10 pr-5 dark:border-white dark:border-opacity-10 xl:mr-3 xl:pr-3 2xl:mr-5 2xl:pr-5">
               <div className="mr-4">
