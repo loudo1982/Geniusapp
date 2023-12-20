@@ -178,22 +178,31 @@ console.log('el taller es',taller)
   return (
     <>
      {!inscrito && (  <div className="wow fadeInUp relative overflow-hidden rounded-md bg-white shadow-one dark:bg-dark" >
-     <button
+     <div
   className={`relative block h-[220px] w-full $}`}
 
 >
 
 <span
-    onClick={async () => {
+  onClick={async () => {
+    if (!deshabilitarboton && cuporestante !== 0) {
       await handleInscripcionClick();
-    }}
-    className={`absolute top-6 right-6 z-20 inline-flex items-center justify-center rounded-full bg-primary py-2 px-4 text-sm font-semibold capitalize text-white 
-    `}
-  > {deshabilitarboton? '':'Me inscribo'}
-   
-  </span>
+    }
+  }}
+  className={`absolute top-6 right-6 z-20 inline-flex items-center justify-center rounded-full ${
+    deshabilitarboton || cuporestante === 0 ? 'bg-gray-400 cursor-not-allowed' : 'bg-primary cursor-pointer'
+  } py-2 px-4 text-sm font-semibold capitalize text-white`}
+>
+  {deshabilitarboton || cuporestante === 0 ? '' : 'Me inscribo'}
+</span>
+  <span
+   className={`absolute top-6 ml-2 z-20 inline-flex items-center justify-center rounded-full bg-dark  py-2 px-4 text-sm font-semibold capitalize text-white 
+   `}
+>
+  {cuporestante === 0 ? 'Taller cerrado' :'Taller abierto' }
+</span>
   <Image src={image} alt="image" fill />
-</button>
+</div>
         <div className="p-6 sm:p-8 md:py-8 md:px-6 lg:p-8 xl:py-8 xl:px-5 2xl:p-8">
           <h3>
             <Link
@@ -205,6 +214,9 @@ console.log('el taller es',taller)
           </h3>
           <p className="mb-6 border-b border-body-color border-opacity-10 pb-6 text-base font-medium text-body-color dark:border-white dark:border-opacity-10">
             {descripcion}
+          </p>
+          <p className="mb-6 border-b border-body-color border-opacity-10 pb-6 text-base font-medium text-body-color dark:border-white dark:border-opacity-10">
+          El taller tiene un cupo de {cupoMaximo} estudiantes y quedan  {cuporestante} lugares.
           </p>
           <div className="flex items-center">
             <div className="mr-5 flex items-center border-r border-body-color border-opacity-10 pr-5 dark:border-white dark:border-opacity-10 xl:mr-3 xl:pr-3 2xl:mr-5 2xl:pr-5">
@@ -231,18 +243,28 @@ console.log('el taller es',taller)
       {inscrito && (  <div className="wow fadeInUp relative overflow-hidden rounded-md bg-white shadow-one dark:bg-dark" >
      <div
   className={`relative block h-[220px] w-full $}`}
+  
 
 >
 
 <span
-   
-    className={`absolute top-6 right-6 z-20 inline-flex items-center justify-center rounded-full bg-primary py-2 px-4 text-sm font-semibold capitalize text-white 
-    `}
-  > 
-{deshabilitarboton? 'inscrito':''}
-{deshabilitarbotonlosdemas? 'Inscrito en otro taller':''}
+  className={`absolute top-6 right-6 z-20 inline-flex items-center justify-center rounded-full bg-primary   ${
+    deshabilitarboton || deshabilitarbotonlosdemas ? 'bg-gray-400 cursor-not-allowed' : 'bg-primary cursor-pointer'
+  } py-2 px-4 text-sm font-semibold capitalize text-white`}
+>
 
-  </span>
+
+  {deshabilitarboton ? 'Inscrito' : (deshabilitarbotonlosdemas ? 'Inscrito en otro taller' : '')}
+</span>
+
+
+  <span
+   className={`absolute top-6 ml-2 z-20 inline-flex items-center justify-center rounded-full bg-dark  py-2 px-4 text-sm font-semibold capitalize text-white 
+   `}
+>
+  {cuporestante === 0 ? 'Taller cerrado' :'Taller abierto' }
+</span>
+
   <Image src={image} alt="image" fill />
 </div>
         <div className="p-6 sm:p-8 md:py-8 md:px-6 lg:p-8 xl:py-8 xl:px-5 2xl:p-8">
