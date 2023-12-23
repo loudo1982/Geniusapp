@@ -23,6 +23,6 @@
       }
     ]
   },
-  "include": ["next-env.d.ts", ".next/types/**/*.ts", "**/*.ts", "**/*.tsx", "components/Addtaller/addtaller.js", "app/taller2/page.jsx", "app/inscritos/page.js", "app/inscritos/[page].js", "components/Talleres/SingleTaller.jsx"],
+  "include": ["next-env.d.ts", ".next/types/**/*.ts", "**/*.ts", "**/*.tsx", "components/Addtaller/addtaller.js", "app/taller2/page.js", "app/inscritos/page.js", "app/inscritos/[page].js", "components/Talleres/SingleTaller.jsx", "app/taller/page.js"],
   "exclude": ["node_modules"]
 }
