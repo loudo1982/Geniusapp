@@ -123,60 +123,51 @@ console.log('el taller es',taller)
 
   const handleInscripcionClick = async () => {
     try {
-     
-        //window.location.reload();
-       
-
-        Swal.fire({
-          title: "¿Seguro quieres inscribirte en este taller?",
-          text: "Una vez inscrito , no podrás cambiar!",
-          icon: "warning",
-          showCancelButton: true,
-          confirmButtonColor: "#3085d6",
-          cancelButtonColor: "#d33",
-          confirmButtonText: "¡Sí, seguro!"
-        }).then((result) => {
-          if (result.isConfirmed) {
-            try {
-              const inscritosCollection = collection(db, 'inscritos');
-              restarcupo()
-              if (!inscrito ) {
-               addDoc(inscritosCollection, {
-                  usuario:usuario.displayName,
-                  nombre,
-                  email:usuario.email,
-                  avatar:usuario.photoURL
-                });
-
-                console.log('el usuario a inscribir es',usuario.displayName,)
-        
-                // Actualiza el estado para indicar que el usuario está inscrito en este tal
-              } 
-            } catch (error) {
-              console.log('l erreur est',error)
+      Swal.fire({
+        title: "¿Seguro quieres inscribirte en este taller?",
+        text: "Una vez inscrito, no podrás cambiar!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "¡Sí, seguro!"
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          try {
+            const inscritosCollection = collection(db, 'inscritos');
+            restarcupo();
+            if (!inscrito) {
+              await addDoc(inscritosCollection, {
+                usuario: usuario.displayName,
+                nombre,
+                email: usuario.email,
+                avatar: usuario.photoURL
+              });
+  
+              console.log('el usuario a inscribir es', usuario.displayName);
             }
-           
-
-
-            
-            Swal.fire({
-              title: "FELICIDADES!",
-              text: "estas inscrito.",
-              icon: "success"
-              
-            });window.location.reload();
-          }else if (result.isDismissed) {
-            // Hacer algo si se da clic en "Cancelar"
-            return; // para no ejecutar nada más
+  
+          } catch (error) {
+            console.log('l erreur est', error);
           }
-        });
-     
-       
-      
+  
+          Swal.fire({
+            title: "FELICIDADES!",
+            text: "estás inscrito.",
+            icon: "success"
+          }).then(() => {
+            window.location.reload();
+          });
+        } else if (result.isDismissed) {
+          // Hacer algo si se da clic en "Cancelar"
+          return; // para no ejecutar nada más
+        }
+      });
     } catch (error) {
       console.error('Error al inscribirse:', error);
     }
   };
+  
 
   return (
     <>
