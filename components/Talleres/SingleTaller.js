@@ -124,8 +124,6 @@ console.log('el taller es',taller)
   const handleInscripcionClick = async () => {
     try {
      
-      
-
         //window.location.reload();
        
 
