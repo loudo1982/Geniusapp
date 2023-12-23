@@ -27,6 +27,7 @@ const CrearTallerForm = () => {
   const [isSubmittingForm, setIsSubmittingForm] = useState(false);
   const [registrationSuccess, setRegistrationSuccess] = useState(false);
   const [user, setUser] = useState(null);
+  const [codigoIngresado, setCodigoIngresado] = useState('');
 
 
   useEffect(() => {
@@ -61,6 +62,12 @@ const CrearTallerForm = () => {
  
 
   onSubmit: async (values, { setSubmitting }) => {
+
+    if (codigoIngresado !== 'Sonora1') {
+      // Código incorrecto, puedes mostrar un mensaje de error o hacer lo que consideres adecuado.
+      console.error('Código incorrecto');
+      return;
+    }
     console.log('los valores',values)
     setIsSubmittingForm(true);
     setSubmitting(true);
@@ -123,8 +130,14 @@ const CrearTallerForm = () => {
   return (
     <section id="contact" className="overflow-hidden py-16 md:py-20 lg:py-28">
       <div className="container">
+
+      {codigoIngresado === 'Sonora1'? (
         <div className="-mx-4 flex flex-wrap">
+        
+ <div className="-mx-4 flex flex-wrap">
           <div className="w-full px-4 lg:w-7/12 xl:w-8/12">
+
+          
  
             <div className="wow fadeInUp mb-12 rounded-md bg-primary/[3%] py-11 px-8 dark:bg-dark sm:p-[55px] lg:mb-5 lg:px-8 xl:p-[55px]" data-wow-delay=".15s">
               <h2 className="mb-3 text-2xl font-bold text-black dark:text-white sm:text-3xl lg:text-2xl xl:text-3xl">
@@ -229,6 +242,27 @@ const CrearTallerForm = () => {
             </div>
           </div>
         </div>
+
+        </div>
+         ) : (
+          <div className="w-full px-4">
+              <label htmlFor="codigo" className="mb-3 block text-sm font-medium text-dark dark:text-white">
+                Código de acceso
+              </label>
+              <input
+                type="text"
+                id="codigo"
+                name="codigo"
+                placeholder="Ingresa el código"
+                className="w-full rounded-md border border-transparent py-3 px-6 text-base text-body-color placeholder-body-color shadow-one outline-none focus:border-primary focus-visible:shadow-none dark:bg-[#242B51] dark:shadow-signUp"
+                value={codigoIngresado}
+                onChange={(e) => setCodigoIngresado(e.target.value)}
+              />
+            </div>
+          
+     
+      )}
+       
       </div>
     </section>
   );

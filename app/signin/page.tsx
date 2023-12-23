@@ -69,10 +69,10 @@ signInWithPopup(auth, provider)
           <div className="w-full px-4">
             <div className="mx-auto max-w-[500px] rounded-md bg-primary bg-opacity-5 py-10 px-6 dark:bg-dark sm:p-[60px]">
               <h3 className="mb-3 text-center text-2xl font-bold text-black dark:text-white sm:text-3xl">
-                Inicia sesión en tu cuenta
+                Inicia sesión en tu cuenta institucional
               </h3>
               <p className="mb-11 text-center text-base font-medium text-body-color">
-                Inicia sesión en tu cuenta para un proceso de compra más rápido.
+                Inicia sesión en tu cuenta @tec.mx para poder inscribirte a un taller.
               </p>
               <button className="mb-6 flex w-full items-center justify-center rounded-md bg-white p-3 text-base font-medium text-body-color shadow-one hover:text-primary dark:bg-[#242B51] dark:text-body-color dark:shadow-signUp dark:hover:text-white"
                  onClick={handleSignInWithGoogle}>
@@ -112,14 +112,14 @@ signInWithPopup(auth, provider)
                 </span>
                 Inicia sesión con Google
               </button>
-              <div className="mb-8 flex items-center justify-center">
-                <span className="hidden h-[1px] w-full max-w-[70px] bg-body-color sm:block"></span>
+              { /*  <div className="mb-8 flex items-center justify-center">
+           <span className="hidden h-[1px] w-full max-w-[70px] bg-body-color sm:block"></span>
                 <p className="w-full px-5 text-center text-base font-medium text-body-color">
                   O, inicia sesión con tu correo electrónico
                 </p>
                 <span className="hidden h-[1px] w-full max-w-[70px] bg-body-color sm:block"></span>
-              </div>
-              <form onSubmit={handleSubmit} >
+  </div> */}
+                  { /* <form onSubmit={handleSubmit} >
                 <div className="mb-8">
                   <label
                     htmlFor="email"
@@ -148,7 +148,7 @@ signInWithPopup(auth, provider)
                     name="password"
                     placeholder="Ingresa tu Contraseña"
                     value={password}
-            onChange={(e) => setPassword(e.target.value)}
+                 onChange={(e) => setPassword(e.target.value)}
                     className="w-full rounded-md border border-transparent py-3 px-6 text-base text-body-color placeholder-body-color shadow-one outline-none focus:border-primary focus-visible:shadow-none dark:bg-[#242B51] dark:shadow-signUp"
                   />
                 </div>
@@ -200,19 +200,19 @@ signInWithPopup(auth, provider)
                     Inicia sesión
                   </button>
                   {error && (
-  <div className=" text-center mb-4 text-red-600 ">
-    <p>Un problema ocurrió, es posible que está cuenta no exista. </p>
-  </div>
-)}
+                     <div className=" text-center mb-4 text-red-600 ">
+                        <p>Un problema ocurrió, es posible que está cuenta no exista. </p>
+                          </div>
+                          )}
                 </div>
-              </form>
-              <p className="text-center text-base font-medium text-body-color">
+                  </form> */}
+                { /*    <p className="text-center text-base font-medium text-body-color">
                 ¿Todavía no tienes una cuenta?
                 <Link href="/signup" className="text-primary hover:underline">
                   Regístrate
                 </Link>
-              </p>
-            </div>
+                </p> */}
+                  </div> 
           </div>
         </div>
       </div>
