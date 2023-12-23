@@ -74,7 +74,10 @@ console.log('el taller es',taller)
           where('usuario', '==', usuario.displayName),// no cambiar 'usuario'
           where('nombre', '==', nombre)
         );
+
+        
         const querySnapshot = await getDocs(q);
+        console.log('voir erreur 1',querySnapshot)
 
      
        
@@ -136,23 +139,23 @@ console.log('el taller es',taller)
           confirmButtonText: "¡Sí, seguro!"
         }).then((result) => {
           if (result.isConfirmed) {
-            const inscritosCollection = collection(db, 'inscritos');
-            restarcupo()
-            if (!inscrito ) {
-             addDoc(inscritosCollection, {
-                usuario:usuario.displayName,
-                nombre,
-                email:usuario.email,
-                avatar:usuario.photoURL
-              });
-      
-              // Actualiza el estado para indicar que el usuario está inscrito en este taller
-             
-    
-         
-          
-             
-            } 
+            try {
+              const inscritosCollection = collection(db, 'inscritos');
+              restarcupo()
+              if (!inscrito ) {
+               addDoc(inscritosCollection, {
+                  usuario:usuario.displayName,
+                  nombre,
+                  email:usuario.email,
+                  avatar:usuario.photoURL
+                });
+        
+                // Actualiza el estado para indicar que el usuario está inscrito en este tal
+              } 
+            } catch (error) {
+              console.log('l erreur est',error)
+            }
+           
 
 
             
