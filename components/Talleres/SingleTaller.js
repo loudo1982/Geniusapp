@@ -149,6 +149,8 @@ console.log('el taller es',taller)
                   email:usuario.email,
                   avatar:usuario.photoURL
                 });
+
+                console.log('el usuario a inscribir es',usuario.displayName,)
         
                 // Actualiza el estado para indicar que el usuario está inscrito en este tal
               } 
