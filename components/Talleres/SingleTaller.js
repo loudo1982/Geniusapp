@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { db } from "@/firebase/initFirebase";
 import { useRouter } from 'next/navigation'
 import Swal from 'sweetalert2'
-import { addDoc, collection, getDocs, query, where,doc, updateDoc,getDoc  } from '@firebase/firestore';
+import { addDoc, collection, getDocs, query, where,doc, updateDoc,getDoc  } from "firebase/firestore"; 
 import Image from 'next/image';
 import Link from 'next/link'
 import UserInfo from "../userInfo";
