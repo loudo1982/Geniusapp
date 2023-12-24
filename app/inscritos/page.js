@@ -38,8 +38,8 @@ const InscritosPage = () => {
 
   return (
     <div className='m-8 sm:m-16 md:m-32'>
-    <h1 className="text-2xl font-bold mb-4">Inscritos Page</h1>
-    <p className="mb-2">Nombre del taller: {searchParams.get("taller")}</p>
+
+    <p className="mt-16">Nombre del taller: {searchParams.get("taller")}</p>
     <div className="overflow-x-auto">
       {registros && (
         <div className="sm:overflow-x-auto">
@@ -57,7 +57,7 @@ const InscritosPage = () => {
               {registros.map((registro, index) => (
                 <tr key={registro.id}>
                   <td className="px-4 py-2 border border-gray-400">{index + 1}</td>
-                  <td className="px-4 py-2 border border-gray-400 "><Image className='overflow-hidden rounded-full' src={registro.data.avatar} alt="image" width={30} height={30}  /></td>
+                  <td className="p-1 border border-gray-400"><Image className='overflow-hidden rounded-full' src={registro.data.avatar} alt="image" width={30} height={30}  /></td>
                   <td className="px-4 py-2 border border-gray-400">{registro.data.usuario}</td>
                  
                   <td className="px-4 py-2 border border-gray-400">{registro.data.email}</td>

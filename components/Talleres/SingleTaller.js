@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { db } from "@/firebase/initFirebase";
 import { useRouter } from 'next/navigation'
 import Swal from 'sweetalert2'
-import { addDoc, collection, getDocs, query, where,doc, updateDoc,getDoc  } from "firebase/firestore"; 
+import { addDoc, collection, getDocs, query, where,doc, updateDoc,getDoc,deleteDoc  } from "firebase/firestore"; 
 import Image from 'next/image';
 import Link from 'next/link'
 import UserInfo from "../userInfo";
@@ -23,43 +23,38 @@ console.log('el taller es',taller)
     onTallerClick(taller.nombre);
   };
 
-  const restarcupo = async () => {
+  const sumarorestarcupo = async (taller, operacion) => {
     try {
-      const productsRef = collection(db, "products");
-      const q = query(productsRef, where("nombre", "==", taller.nombre));
-      const querySnapshot = await getDocs(q);
-  
-      let docID = "";
-      querySnapshot.forEach((doc) => {
-        docID = doc.id;
-      });
-  
-      const productRef = doc(db, "products", docID);
-  
-      // Obtén la información actual del documento
-      const productSnapshot = await getDoc(productRef);
-      const currentCuporestante = productSnapshot.data().cuporestante;
-  
-      // Resta 1 al valor actual de cuporestante
-      const newCuporestante = currentCuporestante - 1;
-  
-      // Actualiza el documento en la base de datos
-      await updateDoc(productRef, { cuporestante: newCuporestante });
-  
-      console.log('Cupo restado correctamente');
+        const productsRef = collection(db, "products");
+        const q = query(productsRef, where("nombre", "==", taller.nombre));
+        const querySnapshot = await getDocs(q);
+
+        let docID = "";
+        querySnapshot.forEach((doc) => {
+            docID = doc.id;
+        });
+
+        const productRef = doc(db, "products", docID);
+
+        // Obtén la información actual del documento
+        const productSnapshot = await getDoc(productRef);
+        const currentCuporestante = productSnapshot.data().cuporestante;
+
+        // Determina la operación (sumar o restar)
+        const amount = operacion === 'sumar' ? 1 : -1;
+
+        // Realiza la operación en el valor actual de cuporestante
+        const newCuporestante = currentCuporestante + amount;
+
+        // Actualiza el documento en la base de datos
+        await updateDoc(productRef, { cuporestante: newCuporestante });
+
+        console.log(`Cupo ${operacion === 'sumar' ? 'sumado' : 'restado'} correctamente`);
     } catch (error) {
-      console.error('Error al restar cupo:', error);
+        console.error(`Error al ${operacion === 'sumar' ? 'sumar' : 'restar'} cupo:`, error);
     }
-  };
-  
+};
 
-    
- 
-
-
-   
-
-  
 
   useEffect(() => {
 
@@ -135,7 +130,7 @@ console.log('el taller es',taller)
         if (result.isConfirmed) {
           try {
             const inscritosCollection = collection(db, 'inscritos');
-            restarcupo();
+            sumarorestarcupo(taller, 'restar');
             if (!inscrito) {
               await addDoc(inscritosCollection, {
                 usuario: usuario.displayName,
@@ -156,6 +151,7 @@ console.log('el taller es',taller)
             text: "estás inscrito.",
             icon: "success"
           }).then(() => {
+            setInscrito(true)
             window.location.reload();
           });
         } else if (result.isDismissed) {
@@ -168,6 +164,74 @@ console.log('el taller es',taller)
     }
   };
   
+
+  const handleDesinscribir = async () => {
+    try {
+      Swal.fire({
+        title: "¿Seguro quieres desinscribirte de este taller?",
+        text: "Esta acción no se puede deshacer.",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#d33",
+        cancelButtonColor: "#3085d6",
+        confirmButtonText: "¡Sí, estoy seguro!"
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          try {
+            sumarorestarcupo(taller, 'sumar');
+            const usuarioAEliminar = usuario.displayName;
+  
+            // Referencia a la colección 'inscritos'
+            const inscritosCollection = collection(db, 'inscritos');
+  
+            // Consulta para encontrar el documento que coincide con el campo 'usuario'
+            const q = query(inscritosCollection, where('usuario', '==', usuarioAEliminar));
+  
+            // Obtener documentos que coincidan con la consulta
+            const querySnapshot = await getDocs(q);
+  
+            // Verificar si se encontró algún documento
+            if (!querySnapshot.empty) {
+              // Eliminar el documento encontrado
+              const docRef = querySnapshot.docs[0].ref;
+              await deleteDoc(docRef);
+  
+              console.log('Usuario desinscrito exitosamente');
+            } else {
+              console.log('No se encontró ningún usuario para desinscribir');
+            }
+  
+            // Puedes agregar lógica adicional aquí después de desinscribir al usuario
+  
+          } catch (error) {
+            console.error('Error al desinscribir usuario:', error);
+          }
+  
+          Swal.fire({
+            title: "Desinscripción exitosa",
+            text: "Has sido desinscrito de este taller.",
+            icon: "success"
+          }).then(() => {
+            // Puedes agregar lógica adicional después de la desinscripción exitosa
+            window.location.reload(); // Recargar la página, o realizar cualquier otra acción necesaria
+          });
+  
+        } else if (result.isDismissed) {
+          // Hacer algo si se da clic en "Cancelar"
+          return; // para no ejecutar nada más
+        }
+      });
+    } catch (error) {
+      console.error('Error al desinscribirse:', error);
+    }
+  };
+  
+
+
+
+
+
+
 
   return (
     <>
@@ -253,13 +317,20 @@ console.log('el taller es',taller)
 
 
   <span
-   className={`absolute top-6 ml-2 z-20 inline-flex items-center justify-center rounded-full bg-dark  py-2 px-4 text-sm font-semibold capitalize text-white 
+   className={`absolute top-6 ml-2 z-20 inline-flex items-center justify-center  rounded-full bg-dark  py-2 px-4 text-sm font-semibold capitalize text-white 
    `}
 >
   {cuporestante < 1 ? 'Taller cerrado' :'Taller abierto' }
 </span>
 
   <Image src={image} alt="image" fill />
+   {/* Añadir el botón de desinscripción */}
+   {deshabilitarboton && (<button
+        className="absolute bottom-6  left-6 z-20 inline-flex  items-center justify-center rounded-full bg-white py-2 px-4 text-sm font-semibold  text-black cursor-pointer "
+        onClick={handleDesinscribir}
+      >
+        Desinscribirme de este taller
+      </button>)}
 </div>
         <div className="p-6 sm:p-8 md:py-8 md:px-6 lg:p-8 xl:py-8 xl:px-5 2xl:p-8">
           <h3>

@@ -72,9 +72,15 @@ const CrearTallerForm = () => {
     setIsSubmittingForm(true);
     setSubmitting(true);
 
-    const imageFile = values.foto;
+    const generateUniqueId= ()=>{
+      return Math.random().toString(36).substring(2) + Date.now().toString(36);
+    }
+    const uniqueId = generateUniqueId();
 
-    const storageRef = ref(storage, `/files/${values.foto.name}`);
+    const imageFile = values.foto;
+    const fileName = `${uniqueId}_${values.foto.name}`
+
+    const storageRef = ref(storage, `/files/${fileName}`);
     const uploadTask = uploadBytesResumable(storageRef, imageFile);
     console.log(imageFile,values.foto.name )
 

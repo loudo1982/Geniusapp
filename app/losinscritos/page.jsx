@@ -48,9 +48,8 @@ const InscritosPage = () => {
     });
   };
   return (
-    <div className='m-4 sm:m-8 md:m-16'>
-    <h1 className="text-2xl font-bold mb-4">Inscritos Page</h1>
-    <p className="mb-2">Nombre del taller: {searchParams.get("taller")}</p>
+    <div className='m-2 mt-24 sm:m-8 md:m-16'>
+    <h1 className="text-2xl font-bold mb-12">Inscritos</h1>
     <div className="mb-4">
       <input
         type="text"
@@ -63,7 +62,7 @@ const InscritosPage = () => {
         className="mt-2 px-4 py-2 bg-blue-500 text-white rounded-lg w-full"
         onClick={() => setRegistros(filtrarRegistros(registros))}
       >
-        Buscar
+
       </button>
     </div>
     <div className="overflow-x-auto">
@@ -83,7 +82,7 @@ const InscritosPage = () => {
               {filtrarRegistros(registros).map((registro, index) => (
                 <tr key={registro.id}>
                   <td className="px-4 py-2 border border-gray-400">{index + 1}</td>
-                  <td className="p-1"><Image className='overflow-hidden rounded-full' src={registro.data.avatar} alt="image" width={30} height={30}  /></td>
+                  <td className="p-1 border border-gray-400"><Image className='overflow-hidden rounded-full' src={registro.data.avatar} alt="image" width={30} height={30}  /></td>
                   <td className="px-4 py-2 border border-gray-400">{registro.data.usuario}</td>
                   <td className="px-4 py-2 border border-gray-400">{registro.data.email}</td>
                   <td className="px-4 py-2 border border-gray-400">{registro.data.nombre}</td>
