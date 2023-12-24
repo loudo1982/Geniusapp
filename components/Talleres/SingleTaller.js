@@ -285,7 +285,7 @@ console.log('el taller es',taller)
 
               </div>
               <div className="w-full">
-                <h4 className="mb-1 text-sm font-medium text-dark dark:text-white">By {displayName}</h4>
+                <h4 className="mb-1 text-sm font-medium text-dark dark:text-white">Por {displayName}</h4>
                 <p className="text-xs text-body-color">{email}</p>
               </div>
             </div>
