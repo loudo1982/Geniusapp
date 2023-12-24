@@ -48,9 +48,9 @@ const InscritosPage = () => {
     });
   };
   return (
-    <div className='m-2 mt-24 sm:m-8 md:m-16'>
-    <h1 className="text-2xl font-bold mb-12">Inscritos</h1>
-    <div className="mb-4">
+    <div className='m-8 sm:m-16 md:m-32'>
+
+    <div className="mt-32">
       <input
         type="text"
         placeholder="Buscar por email o displayname"

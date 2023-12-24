@@ -290,9 +290,12 @@ console.log('el taller es',taller)
               </div>
             </div>
             <div className="inline-block">
-              <h4 className="mb-1 text-sm font-medium text-dark dark:text-white">Inscritos</h4>
-              <button className="text-xs text-body-color" onClick={handleClick}>Ver a los inscritos</button>
-            </div>
+  <h4 className="mb-1 text-sm font-medium text-dark dark:text-white">Inscritos</h4>
+  <button className="text-xs text-body-color ml-0" onClick={handleClick}>
+    Ver a los {cupoMaximo-cuporestante} inscritos 
+  </button>
+</div>
+
           </div>
          
         </div>
@@ -308,7 +311,7 @@ console.log('el taller es',taller)
 <span
   className={`absolute top-6 right-6 z-20 inline-flex items-center justify-center rounded-full bg-primary   ${
     deshabilitarboton || deshabilitarbotonlosdemas ? 'bg-gray-400 cursor-not-allowed' : 'bg-primary cursor-pointer'
-  } py-2 px-4 text-sm font-semibold capitalize text-white`}
+  } py-2 px-4 text-sm font-semibold  text-white`}
 >
 
 
@@ -362,10 +365,16 @@ console.log('el taller es',taller)
                 <p className="text-xs text-body-color">{email}</p>
               </div>
             </div>
+         
+
             <div className="inline-block">
-              <h4 className="mb-1 text-sm font-medium text-dark dark:text-white">Inscritos</h4>
-              <button className="text-xs text-body-color" onClick={handleClick}>Ver a los inscritos</button>
-            </div>
+  <h4 className="mb-1 text-sm font-medium text-dark dark:text-white">Inscritos</h4>
+  <button className="text-xs text-body-color ml-0" onClick={handleClick}>
+  Ver a los {cupoMaximo-cuporestante} inscritos 
+  </button>
+</div>
+
+
           </div>
          
         </div>

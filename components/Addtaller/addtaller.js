@@ -241,7 +241,7 @@ const CrearTallerForm = () => {
           Registro exitoso
         </div>
       )}
-        {isSubmittingForm ? 'Enviando datos...' : ''}
+        {isSubmittingForm ? (<p className='ml-2'>Enviando datos... </p>): ''}
                   </div>
                 </div>
               </form>
@@ -253,7 +253,7 @@ const CrearTallerForm = () => {
          ) : (
           <div className="w-full px-4">
               <label htmlFor="codigo" className="mb-3 block text-sm font-medium text-dark dark:text-white">
-                Código de acceso
+                Código para crear taller
               </label>
               <input
                 type="text"
