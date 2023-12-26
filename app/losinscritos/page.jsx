@@ -6,6 +6,8 @@ import React, { useState, useEffect } from 'react';
 import { db } from "@/firebase/initFirebase";
 import { collection, getDocs,where,query } from "firebase/firestore";
 import Image from 'next/image';
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
+import { useRouter } from 'next/navigation'
 
 const InscritosPage = () => {
   const searchParams = useSearchParams();
@@ -13,6 +15,7 @@ const InscritosPage = () => {
 
   const [registros, setRegistros] = useState(null);
   const [busqueda, setBusqueda] = useState("");
+  const [user, setUser] = useState(null);
 
   const registrostalleres = async () => {
     const talleresArray = [];
@@ -25,16 +28,64 @@ const InscritosPage = () => {
     });
     return talleresArray;
   };
+  const router = useRouter()
 
+  const autentifie = async () => {
+    const auth = getAuth();
+    const user = await new Promise((resolve) => {
+      const unsubscribe = onAuthStateChanged(auth, (user) => {
+        resolve(user);
+        unsubscribe(); // Desuscribirse una vez que se resuelve la promesa
+      });
+    });
+    return user;
+  };
   useEffect(() => {
+
     const fetchData = async () => {
+      const isAuthenticated = await autentifie();
+
+      if (!isAuthenticated) {
+        // Si el usuario no está autenticado, redirigir a la página de inicio de sesión
+        router.push("/signin");
+        return;
+      }
+
+      // Si el usuario está autenticado, continuar con la obtención de datos
+      const data = await registrostalleres();
+      setRegistros(data);
+    };
+
+    fetchData();
+
+
+  
+  
+    }, []);
+
+
+    // Asegúrate de desuscribirte cuando el componente se desmonte
+
+  
+
+
+
+
+  
+
+  // Asegúrate de desuscribirte cuando el componente se desmonte
+
+    const fetchData = async () => {
+    
       const data = await registrostalleres();
       setRegistros(data);
       console.log('los datasson',data)
     };
-    fetchData();
+  
 
-  }, []);
+
+
+
   const handleBusqueda = (event) => {
     setBusqueda(event.target.value);
   };

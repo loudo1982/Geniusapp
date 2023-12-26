@@ -6,7 +6,7 @@ import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { ref, uploadBytesResumable, getDownloadURL, uploadBytes } from "firebase/storage";
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-
+import { useRouter } from 'next/navigation'
 
 const validationSchema = Yup.object({
   nombre: Yup.string()
@@ -30,6 +30,8 @@ const CrearTallerForm = () => {
   const [codigoIngresado, setCodigoIngresado] = useState('');
 
 
+  const router = useRouter()
+
   useEffect(() => {
     const auth = getAuth();
 
@@ -40,6 +42,11 @@ const CrearTallerForm = () => {
       } else {
         // El usuario no está autenticado
         setUser(null);
+        router.push("/signin");
+
+
+
+
       }
     });
 
