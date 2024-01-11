@@ -17,7 +17,9 @@ const validationSchema = Yup.object({
   foto: Yup.mixed()
     .required('La foto es requerida'),
   cupoMaximo: Yup.number()
-    .required('El cupo máximo es requerido')
+    .required('El cupo máximo es requerido'),
+  requisito: Yup.string()
+  .required('El requisito es requerido'),
 });
 
 
@@ -60,6 +62,7 @@ const CrearTallerForm = () => {
     initialValues: {
       nombre: '',
       descripcion: '',
+      requisito: '', // Nuevo campo
       foto: '',
       cupoMaximo: '',
     },
@@ -111,12 +114,14 @@ const CrearTallerForm = () => {
         const tallerData = {
           nombre: values.nombre,
           descripcion:values.descripcion,
+          requisito: values.requisito, // Nuevo campo
           cupoMaximo:values.cupoMaximo,
           image: downloadURL,
           displayName:user.displayName,
           email:user.email,
           fotocreador:user.photoURL,
-          cuporestante:values.cupoMaximo
+          cuporestante:values.cupoMaximo,
+
          
 
          
@@ -193,10 +198,28 @@ const CrearTallerForm = () => {
                         {...formik.getFieldProps('descripcion')}
                       ></textarea>
                       {formik.touched.descripcion && formik.errors.descripcion ? (
-  <div className="text-red-500">{formik.errors.nombre}</div>
-) : null}
+                          <div className="text-red-500">{formik.errors.nombre}</div>
+                                                 ) : null}
                     </div>
                   </div>
+                  <div className="w-full px-4">
+  <div className="mb-8">
+    <label htmlFor="requisito" className="mb-3 block text-sm font-medium text-dark dark:text-white">
+      Requisito del taller
+    </label>
+    <textarea
+      id="requisito"
+      name="requisito"
+      rows={5}
+      placeholder="Ingresa el requisito del taller"
+      className="w-full resize-none rounded-md border border-transparent py-3 px-6 text-base text-body-color placeholder-body-color shadow-one outline-none focus:border-primary focus-visible:shadow-none dark:bg-[#242B51] dark:shadow-signUp"
+      {...formik.getFieldProps('requisito')}
+    ></textarea>
+    {formik.touched.requisito && formik.errors.requisito ? (
+      <div className="text-red-500">{formik.errors.requisito}</div>
+    ) : null}
+  </div>
+</div>
                   <div className="w-full px-4">
                     <div className="mb-8">
                       <label htmlFor="foto" className="mb-3 block text-sm font-medium text-dark dark:text-white">

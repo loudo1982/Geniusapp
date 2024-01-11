@@ -9,7 +9,7 @@ import Link from 'next/link'
 import UserInfo from "../userInfo";
 
 const SingleTaller = ({ taller,onTallerClick ,usuario }) => {
-  const { image, descripcion, displayName, email, nombre, fotocreador,cupoMaximo,cuporestante } = taller;
+  const { image, descripcion, displayName, email, nombre, fotocreador,cupoMaximo,cuporestante,requisito } = taller;
   
 console.log('el taller es',taller)
   const [inscrito, setInscrito] = useState(false);
@@ -120,7 +120,7 @@ console.log('el taller es',taller)
     try {
       Swal.fire({
         title: "¿Seguro quieres inscribirte en este taller?",
-        text: "Una vez inscrito, no podrás cambiar!",
+        text: "",
         icon: "warning",
         showCancelButton: true,
         confirmButtonColor: "#3085d6",
@@ -169,7 +169,7 @@ console.log('el taller es',taller)
     try {
       Swal.fire({
         title: "¿Seguro quieres desinscribirte de este taller?",
-        text: "Esta acción no se puede deshacer.",
+        text: "",
         icon: "warning",
         showCancelButton: true,
         confirmButtonColor: "#d33",
@@ -274,6 +274,9 @@ console.log('el taller es',taller)
             {descripcion}
           </p>
           <p className="mb-6 border-b border-body-color border-opacity-10 pb-6 text-base font-medium text-body-color dark:border-white dark:border-opacity-10">
+          Material requerido: {requisito} 
+          </p>
+          <p className="mb-6 border-b border-body-color border-opacity-10 pb-6 text-base font-medium text-body-color dark:border-white dark:border-opacity-10">
           El taller tiene un cupo de {cupoMaximo} estudiantes y quedan  {cuporestante} lugares.
           </p>
           <div className="flex items-center">
@@ -347,6 +350,9 @@ console.log('el taller es',taller)
           </h3>
           <p className="mb-6 border-b border-body-color border-opacity-10 pb-6 text-base font-medium text-body-color dark:border-white dark:border-opacity-10">
             {descripcion} 
+          </p>
+          <p className="mb-6 border-b border-body-color border-opacity-10 pb-6 text-base font-medium text-body-color dark:border-white dark:border-opacity-10">
+          Material requerido: {requisito} 
           </p>
           <p className="mb-6 border-b border-body-color border-opacity-10 pb-6 text-base font-medium text-body-color dark:border-white dark:border-opacity-10">
           El taller tiene un cupo de {cupoMaximo} estudiantes y quedan  {cuporestante} lugares.

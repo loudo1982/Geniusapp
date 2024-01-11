@@ -12,7 +12,7 @@ import Link from 'next/link'
 import UserInfo from "../userInfo";
 
 const SingleTaller2 = ({ taller,onTallerClick ,usuario }) => {
-  const { image, descripcion, displayName, email, nombre, fotocreador,cupoMaximo,cuporestante } = taller;
+  const { image, descripcion, displayName, email, nombre, fotocreador,cupoMaximo,cuporestante,requisito } = taller;
   
 
   const [inscrito, setInscrito] = useState(false);
@@ -155,6 +155,10 @@ const SingleTaller2 = ({ taller,onTallerClick ,usuario }) => {
             {descripcion}
           </p>
           <p className="mb-6 border-b border-body-color border-opacity-10 pb-6 text-base font-medium text-body-color dark:border-white dark:border-opacity-10">
+           Material requerido: {requisito}
+          </p>
+          
+          <p className="mb-6 border-b border-body-color border-opacity-10 pb-6 text-base font-medium text-body-color dark:border-white dark:border-opacity-10">
           El taller tiene un cupo de {cupoMaximo} estudiantes y quedan  {cuporestante} lugares.
           </p>
           <div className="flex items-center">
@@ -218,6 +222,12 @@ const SingleTaller2 = ({ taller,onTallerClick ,usuario }) => {
           </h3>
           <p className="mb-6 border-b border-body-color border-opacity-10 pb-6 text-base font-medium text-body-color dark:border-white dark:border-opacity-10">
             {descripcion} 
+          </p>
+          <p className="mb-6 border-b border-body-color border-opacity-10 pb-6 text-base font-medium text-body-color dark:border-white dark:border-opacity-10">
+            {requisito}
+          </p>
+          <p className="mb-6 border-b border-body-color border-opacity-10 pb-6 text-base font-medium text-body-color dark:border-white dark:border-opacity-10">
+            {requisito}
           </p>
           <p className="mb-6 border-b border-body-color border-opacity-10 pb-6 text-base font-medium text-body-color dark:border-white dark:border-opacity-10">
           El taller tiene un cupo de {cupoMaximo} estudiantes y quedan  {cuporestante} lugares.
