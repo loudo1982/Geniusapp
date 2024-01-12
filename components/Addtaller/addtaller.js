@@ -133,6 +133,7 @@ const CrearTallerForm = () => {
           const docRef = await addDoc(collection(db, "products"), tallerData);
           console.log('Producto agregado exitosamente a Firestore con ID:', docRef.id);
           setRegistrationSuccess(true);
+          
         } catch (error) {
           console.error('Error al agregar el producto a Firestore:', error);
         } finally {
