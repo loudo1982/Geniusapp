@@ -58,6 +58,8 @@ const Tarjetas = () => {
       </div>
     </div>
   );
+  
 };
+
 
 export default Tarjetas;

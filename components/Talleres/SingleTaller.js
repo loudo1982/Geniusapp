@@ -241,7 +241,7 @@ console.log('el taller es',taller)
 
 >
 
-<span
+{/*<span
   onClick={async () => {
     if (!deshabilitarboton && cuporestante !== 0) {
       await handleInscripcionClick();
@@ -252,13 +252,21 @@ console.log('el taller es',taller)
   } py-2 px-4 text-sm font-semibold capitalize text-white`}
 >
   {deshabilitarboton || cuporestante < 1 ? '' : 'Me inscribo'}
+</span> ( esta parte permite habilitar el boton de inscripción para futuras aplicaciones) */} 
+
+
+<span
+  
+  className="absolute top-4 right-12 z-20 inline-flex items-center justify-center rounded-full bg-primary py-1 px-4 text-sm font-semibold capitalize text-white"
+>
+  Inscripciones jueves 08 de Febrero
 </span>
-  <span
+{/* <span
    className={`absolute top-6 ml-2 z-20 inline-flex items-center justify-center rounded-full bg-dark  py-2 px-4 text-sm font-semibold capitalize text-white 
    `}
 >
   {cuporestante < 1 ? 'Taller cerrado' :'Taller abierto' }
-</span>
+</span>  (aqui el boton que dice taller cerrado o abierto )*/}
   <Image src={image} alt="image" fill />
 </div>
         <div className="p-6 sm:p-8 md:py-8 md:px-6 lg:p-8 xl:py-8 xl:px-5 2xl:p-8">
