@@ -15,19 +15,21 @@ const menuData: Menu[] = [
     path: "/taller2",
     newTab: false,
   },
-  {
+  
+  
+ /*
+ {
     id: 0,
     title: "Crear taller",
     path: "/creartaller",
     newTab: false,
-  },
+  }, 
   {
     id: 7,
     title: "Inscritos",
     path: "/losinscritos",
     newTab: false,
   },
- /* 
   {
     id: 4,
     title: "Pages",

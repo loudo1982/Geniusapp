@@ -1,4 +1,4 @@
-import React ,{useState,useEffect} from 'react';
+{/* import React ,{useState,useEffect} from 'react';
 import { db,storage  } from '@/firebase/initFirebase';
 import { collection, addDoc } from "firebase/firestore"; 
 import UserInfo from '../userInfo';
@@ -304,5 +304,17 @@ const CrearTallerForm = () => {
     </section>
   );
 };
+
+export default CrearTallerForm; */}
+
+import React ,{useState,useEffect} from 'react';
+
+
+const CrearTallerForm=()=>{
+
+  return (
+    <p>Página para crear talleres</p>
+  )
+}
 
 export default CrearTallerForm;
