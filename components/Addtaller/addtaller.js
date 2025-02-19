@@ -1,4 +1,4 @@
-{/* import React ,{useState,useEffect} from 'react';
+import React ,{useState,useEffect} from 'react';
 import { db,storage  } from '@/firebase/initFirebase';
 import { collection, addDoc } from "firebase/firestore"; 
 import UserInfo from '../userInfo';
@@ -305,9 +305,9 @@ const CrearTallerForm = () => {
   );
 };
 
-export default CrearTallerForm; */}
+export default CrearTallerForm; 
 
-import React ,{useState,useEffect} from 'react';
+{/*import React ,{useState,useEffect} from 'react';
 
 
 const CrearTallerForm=()=>{
@@ -317,4 +317,4 @@ const CrearTallerForm=()=>{
   )
 }
 
-export default CrearTallerForm;
+export default CrearTallerForm;*/}
