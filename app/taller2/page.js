@@ -1,103 +1,45 @@
-"use client"
-import SingleBlog from "@/components/Blog/SingleBlog";
+"use client";
 import SingleTaller from "@/components/Talleres/SingleTaller";
-import blogData from "@/components/Blog/blogData";
-import tallerData from "@/components/Blog/tallerData";
 import Breadcrumb from "@/components/Common/Breadcrumb";
-import checkAuth from 'app/checkauth'
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import UserInfo from '../../components/userInfo'
 import { tallerData2 } from "@/components/Blog/tallerData";
-
-import { getAuth, onAuthStateChanged } from 'firebase/auth';
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 const MostrarTaller = () => {
-
- const [isAuthenticated, setIsAuthenticated] = useState(false);
- const [dataTalleres, setdataTalleres] = useState([]);
- const [usuario, setUsuario] = useState(null);
+  const [dataTalleres, setDataTalleres] = useState([]);
+  const [usuario, setUsuario] = useState(null);
   const router = useRouter();
-  
-
-
-
-
-
 
   useEffect(() => {
-    const UserInfo = async() => {
+    // Seguimiento opcional del usuario (sin redirigir)
+    const auth = getAuth();
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setUsuario(user);
+    });
 
-      const auth = getAuth();
-  
-      const unsubscribe = onAuthStateChanged(auth, (user) => {
-        if (user) {
-          // El usuario está autenticado
-        setUsuario(user);
-        
-         
-        } else {
-          // El usuario no está autenticado
-          setUsuario(user);
-        }
-      });
-  
-      // Asegúrate de desuscribirte cuando el componente se desmonte
-      return () => unsubscribe()
-   ;
-
-  };
-    
+    // Obtener los datos de los talleres
     const fetchData = async () => {
-      checkAuth(async (authenticated) => {
-        setIsAuthenticated(authenticated);
-  
-        if (!authenticated) {
-          router.push("/signin");
-        } else {
-          const talleresData = await tallerData2();
-          console.log("Los datos de los talleres son:", talleresData);
-          setdataTalleres(talleresData)
-      
-        }
-      });
+      const talleresData = await tallerData2();
+      console.log("Los datos de los talleres son:", talleresData);
+      setDataTalleres(talleresData);
     };
-  
-    fetchData();UserInfo()
+
+    fetchData();
+    return () => unsubscribe();
   }, []);
-  const LoadingComponent = () => (
-    <div>
-      <div className="loading">
-        Cargando...
-      </div>
-    </div>
-  );
 
-  if (!isAuthenticated) {
-   
-    return <LoadingComponent />; // O un componente de carga
-  }
-
-  // Resto del contenido de la página "taller"
   const handleTallerClick = (tallerName) => {
     console.log(`Clicked on taller: ${tallerName}`);
-    // Do something with the clicked taller's name
-
     router.push(`/inscritos?taller=${encodeURIComponent(tallerName)}`);
   };
-  
 
-
-
-
-  
   return (
     <>
       <Breadcrumb
         pageName="Talleres Genius"
         description="¡Descubre la variedad de talleres que tenemos preparados para ti, para que puedas aprender nuevas habilidades!"
       />
-      {/*<UserInfo/>*/}
 
       <section className="pt-[120px] pb-[120px]">
         <div className="container">
@@ -107,9 +49,10 @@ const MostrarTaller = () => {
                 key={taller.id}
                 className="w-full px-4 md:w-2/3 lg:w-1/2 xl:w-1/3 mb-5"
               >
-                <SingleTaller taller={taller.data} onTallerClick={handleTallerClick}
-               usuario={usuario}
-                
+                <SingleTaller
+                  taller={taller.data}
+                  onTallerClick={handleTallerClick}
+                  usuario={usuario}
                 />
               </div>
             ))}
