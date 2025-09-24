@@ -102,17 +102,19 @@ const MostrarTaller2 = () => {
       <section className="pt-[120px] pb-[120px]">
         <div className="container">
           <div className="-mx-4 flex flex-wrap justify-center">
-            {dataTalleres.map((taller) => (
-              <div
-                key={taller.id}
-                className="w-full px-4 md:w-2/3 lg:w-1/2 xl:w-1/3 mb-5"
-              >
-                <SingleTaller2 taller={taller.data} onTallerClick={handleTallerClick}
-               usuario={usuario}
-                
-                />
-              </div>
-            ))}
+          {dataTalleres.map((t) => {
+  const item = { id: t.id, ...t.data };   // 👈 FUSIONA id + data
+  return (
+    <div key={item.id} className="w-full px-4 md:w-2/3 lg:w-1/2 xl:w-1/3 mb-5">
+      <SingleTaller2
+        taller={item}                          // 👈 ahora SingleTaller2 recibe .id
+        onTallerClick={handleTallerClick}
+        usuario={usuario}
+      />
+    </div>
+  );
+})}
+
           </div>
 
           <div

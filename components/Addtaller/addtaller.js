@@ -73,7 +73,7 @@ const CrearTallerForm = () => {
 
   onSubmit: async (values, { setSubmitting }) => {
 
-    if (codigoIngresado !== 'Sonora1') {
+    if (codigoIngresado !== 'Erickalamejor') {
       // Código incorrecto, puedes mostrar un mensaje de error o hacer lo que consideres adecuado.
       console.error('Código incorrecto');
       return;

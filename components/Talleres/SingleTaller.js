@@ -26,6 +26,7 @@ console.log('el taller es',taller)
   const sumarorestarcupo = async (taller, operacion) => {
     try {
         const productsRef = collection(db, "products");
+        
         const q = query(productsRef, where("nombre", "==", taller.nombre));
         const querySnapshot = await getDocs(q);
 
@@ -282,7 +283,7 @@ console.log('el taller es',taller)
             {descripcion}
           </p>
           <p className="mb-6 border-b border-body-color border-opacity-10 pb-6 text-base font-medium text-body-color dark:border-white dark:border-opacity-10">
-          Material requerido: {requisito} 
+          Material requerido : {requisito} 
           </p>
           <p className="mb-6 border-b border-body-color border-opacity-10 pb-6 text-base font-medium text-body-color dark:border-white dark:border-opacity-10">
           El taller tiene un cupo de {cupoMaximo} estudiantes y quedan  {cuporestante} lugares.
@@ -301,7 +302,15 @@ console.log('el taller es',taller)
               </div>
             </div>
             <div className="inline-block">
-  <h4 className="mb-1 text-sm font-medium text-dark dark:text-white">Inscritos</h4>
+                <Link
+  href={`/taller/editar/${taller.id}`}
+  className="inline-flex items-center rounded-md border px-3 py-1 text-sm hover:bg-gray-100"
+  aria-label={`Editar ${taller.nombre}`}
+>
+  Editar
+</Link>
+  <h4 className="mb-1 text-sm font-medium text-dark dark:text-white">Inscritos </h4>
+
   <button className="text-xs text-body-color ml-0" onClick={handleClick}>
     Ver a los {cupoMaximo-cuporestante} inscritos 
   </button>
@@ -381,7 +390,13 @@ console.log('el taller es',taller)
             </div>
          
 
-            <div className="inline-block">
+            <div className="inline-block"> <Link
+  href={`/taller/editar/${taller.id}`}
+  className="inline-flex items-center rounded-md border px-3 py-1 text-sm hover:bg-gray-100"
+  aria-label={`Editar ${taller.nombre}`}
+>
+  Editar
+</Link>
   <h4 className="mb-1 text-sm font-medium text-dark dark:text-white">Inscritos</h4>
   <button className="text-xs text-body-color ml-0" onClick={handleClick}>
   Ver a los {cupoMaximo-cuporestante} inscritos 

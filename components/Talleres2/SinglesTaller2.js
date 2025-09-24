@@ -175,8 +175,8 @@ const SingleTaller2 = ({ taller,onTallerClick ,usuario }) => {
               </div>
             </div>
             <div className="inline-block">
-              <h4 className="mb-1 text-sm font-medium text-dark dark:text-white">Inscritos</h4>
-              <button className="text-xs text-body-color" onClick={handleClick}>Ver a los inscritos</button>
+              <h4 className="mb-1 text-sm font-medium text-dark dark:text-white">Inscritos ok</h4>
+              <button className="text-xs text-body-color" onClick={handleClick}>Ver a los inscritos ok</button>
             </div>
           </div>
          
@@ -238,6 +238,13 @@ const SingleTaller2 = ({ taller,onTallerClick ,usuario }) => {
               <div className="mr-4">
                 <div className="relative h-10 w-10 overflow-hidden rounded-full">
                   <Image src={fotocreador} alt="author" fill />
+                    <Link
+  href={`/taller/editar/${taller.id}`}
+  className="inline-flex items-center rounded-md border px-3 py-1 text-sm hover:bg-gray-100"
+  aria-label={`Editar ${taller.nombre}`}
+>
+  Editar
+</Link>
                 </div>
 
               </div>
@@ -247,9 +254,10 @@ const SingleTaller2 = ({ taller,onTallerClick ,usuario }) => {
               </div>
             </div>
             <div className="inline-block">
-              <h4 className="mb-1 text-sm font-medium text-dark dark:text-white">Inscritos</h4>
-              <button className="text-xs text-body-color" onClick={handleClick}>Ver a los inscritos</button>
+              <h4 className="mb-1 text-sm font-medium text-dark dark:text-white">Inscritos ok2</h4>
+              <button className="text-xs text-body-color" onClick={handleClick}>Ver a los inscritos ok2</button>
             </div>
+          
           </div>
          
         </div>
