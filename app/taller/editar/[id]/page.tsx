@@ -109,16 +109,7 @@ export default function EditarTallerPage({ params }) {
             >
               Verificar
             </button>
-            <button
-              type="button"
-              className="rounded border px-4 py-2"
-              onClick={() => {
-                // opción para mostrar pista si quieres; aquí la mostramos
-                alert("Pista: pregunta a Erickalamejor 😄");
-              }}
-            >
-              Mostrar pista
-            </button>
+          
           </div>
         </form>
       </div>

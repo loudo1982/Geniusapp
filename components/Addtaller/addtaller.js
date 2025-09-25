@@ -150,7 +150,7 @@ const CrearTallerForm = () => {
     <section id="contact" className="overflow-hidden py-16 md:py-20 lg:py-28">
       <div className="container">
 
-      {codigoIngresado === 'Sonora1'? (
+      {codigoIngresado === 'Erickalamejor'? (
         <div className="-mx-4 flex flex-wrap">
         
  <div className="-mx-4 flex flex-wrap">
