@@ -260,7 +260,7 @@ console.log('el taller es',taller)
   
   className="absolute top-4 right-12 z-20 inline-flex items-center justify-center rounded-full bg-primary py-1 px-4 text-sm font-semibold capitalize text-white"
 >
-  Inscripciones viernes 21 de Febrero 
+  Inscripciones muy pronto...
 </span>
 {/* <span
    className={`absolute top-6 ml-2 z-20 inline-flex items-center justify-center rounded-full bg-dark  py-2 px-4 text-sm font-semibold capitalize text-white 
